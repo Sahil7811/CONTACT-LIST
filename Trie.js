@@ -1,96 +1,109 @@
-
-export { Trie }
-
-class TrieNode{
-    constructor(){
-        this.children = Array(10).fill(null);
-        this.parent = null;
-    }
-}
-
-class ContactNode{
-    constructor(name, number, parent){
-        this.name = name;
-        this.number = number;
-        this.parent = parent;
-    }
+class TrieNode {
+  constructor() {
+    this.childNode = Array(128).fill(null); // 128 ASCII characters
+    this.wordEnd = false;
+    this.count = 0;
+  }
 }
 
 class Trie {
-    constructor(){
-        this.root = new TrieNode();
-        this.current = this.root;
+  constructor() {
+    this.root = new TrieNode();
+  }
 
-        let init = [
-            ["Aarnav", "123456"],
-            ["Akul", "123546"],
-            ["Shriya", "123654"],
-            ["Prateek", "123465"]
-        ];
+  insert(key) {
+    let currentNode = this.root;
+    for (let i = 0; i < key.length; i++) {
+      const charCode = key.charCodeAt(i);
+      if (currentNode.childNode[charCode] === null) {
+        currentNode.childNode[charCode] = new TrieNode();
+      }
+      currentNode = currentNode.childNode[charCode];
+    }
+    currentNode.count++;
+    currentNode.wordEnd = true;
+  }
 
-        for(let i=0;i<init.length;i++){
-            this.add(init[i][1], init[i][0], 0);
-        }
+  search(key) {
+    let currentNode = this.root;
+    for (let i = 0; i < key.length; i++) {
+      const charCode = key.charCodeAt(i);
+      if (currentNode.childNode[charCode] === null) {
+        return false;
+      }
+      currentNode = currentNode.childNode[charCode];
+    }
+    return true;
+  }
+
+  autocomplete(prefix) {
+    let currentNode = this.root;
+    for (let i = 0; i < prefix.length; i++) {
+      const charCode = prefix.charCodeAt(i);
+      if (currentNode.childNode[charCode] === null) {
+        return []; 
+      }
+      currentNode = currentNode.childNode[charCode];
     }
 
-    add(number, name, pos = 0, node = this.root){
+    const matches = [];
+    this._collectMatches(currentNode, prefix, matches);
+    return matches;
+  }
 
-        if(pos===number.length-1){
-            node.children[number[pos]-'0'] = new ContactNode(name, number, node);
-            return;
-        }
-
-        if(node.children[number[pos]-'0']===null){
-            let newnode = new TrieNode();
-            node.children[number[pos]-'0'] = newnode;
-            newnode.parent = node;
-        }
-        this.add(number, name, pos+1, node.children[number[pos]-'0']);
+  _collectMatches(node, prefix, matches) {
+    if (node.wordEnd) {
+      matches.push(prefix);
     }
 
-    findAll(node){
-        // Contact leaf node
-        if(node===null)
-            return;
+    for (let i = 0; i < node.childNode.length; i++) {
+      if (node.childNode[i] !== null) {
+        const nextPrefix = prefix + String.fromCharCode(i);
+        this._collectMatches(node.childNode[i], nextPrefix, matches);
+      }
+    }
+  }
 
-        if(node instanceof ContactNode){
-            this.res.push(node);
-            return;
+  delete(key) {
+    this._delete(this.root, key, 0);
+  }
+  _delete(node, key, index) {
+    if (index === key.length) {
+      if (node.wordEnd) {
+        node.count--;
+        if (node.count === 0) {
+          node.wordEnd = false;
         }
-
-        for(let i=0;i<10;i++){
-            this.findAll(node.children[i]);
-        }
+        return false;
+      }
+      return false;
     }
 
-    findNext(step){
-        if(step===-1){
-            this.current = this.current.parent;
-        } else if(step!==-2) {
-            if(this.current.children[step-'0']===null){
-                let newnode = new TrieNode();
-                this.current.children[step-'0'] = newnode;
-                newnode.parent = this.current;
-            }
-
-            this.current = this.current.children[step-'0'];
-        }
-        this.res = [];
-        this.findAll(this.current);
-        return this.res;
+    const charCode = key.charCodeAt(index);
+    if (node.childNode[charCode] === null) {
+      return false;
     }
 
-    del(number, pos = 0, node = this.root){
-        if(pos===number.length-1){
-            node.children[number[pos]-'0'] = null;
-            return;
-        }
+    const shouldDeleteChildNode = this._delete(
+      node.childNode[charCode],
+      key,
+      index + 1
+    );
 
-        if(node.children[number[pos]-'0']===null){
-            let newnode = new TrieNode();
-            node.children[number[pos]-'0'] = newnode;
-            newnode.parent = node;
-        }
-        this.del(number, pos+1, node.children[number[pos]-'0']);
+    if (shouldDeleteChildNode) {
+      node.childNode[charCode] = null;
+      return (
+        Object.values(node.childNode).every((child) => child === null) &&
+        !node.wordEnd
+      );
     }
+
+    return false;
+  }
+
+  delete(key) {
+    this._delete(this.root, key.toLowerCase(), 0);
+  }
 }
+
+const trie = new Trie();
