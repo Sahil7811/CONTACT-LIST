@@ -4,7 +4,7 @@
 }
 body {
   background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-    url("/back2.jpg");
+    url("back2.jpg");
   background-size: cover, cover;
   background-position: center;
   background-repeat: no-repeat;
