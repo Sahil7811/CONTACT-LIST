@@ -1,0 +1,151 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+body {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("/back2.jpg");
+  background-size: cover, cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+/* navbar  */
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1vmin;
+}
+.navbar-contaner {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.navbar-img {
+  height: 10vmin;
+  width: 10vmin;
+  background-size: cover;
+  margin: 1vmin;
+  border-radius: 50%;
+}
+.navbar-text {
+  font-size: 7vmin;
+  font-weight: 700;
+  color: white;
+}
+/* container  */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+.SearchNumber,
+.AddNumber,
+.DeletNumber {
+  /* height: 59vmin; */
+  border: solid black 0.2vmin;
+  padding: 2vmin;
+  display: flex;
+  flex-direction: column;
+  background-color: #fffeec;
+  gap: 1vmin;
+  margin: 2vmin;
+  border-radius: 1vmin;
+}
+.text {
+  font-weight: 600;
+  font-size: 5vmin;
+  padding: 1vmin;
+  background-color: #fffeec;
+  text-align: center;
+}
+.name-text {
+  font-weight: 600;
+  background-color: #fffeec;
+  background-color: none;
+  font-size: 3vmin;
+  padding: 0 1vmin 0 1vmin;
+  margin: 0 1vmin 0 1vmin;
+}
+.Search-input,
+.Delete-input {
+  background-color: #fffeec;
+}
+.SearchNumberName,
+.AddNumberName,
+.DeleteNumberName {
+  font-size: 3vmin;
+  padding: 1vmin;
+  margin: 1vmin;
+  border-radius: 1vmin;
+  width: 40vmin;
+  background-color: rgb(243, 242, 240);
+  border: solid black 0.3vmin;
+}
+.SearchNumberValue,
+.AddNumberValue,
+.DeleteNumberValue {
+  font-size: 3vmin;
+  padding: 1vmin;
+  margin: 1vmin;
+  border: solid black;
+  border-radius: 1vmin;
+  width: 40vmin;
+  background-color: rgb(243, 242, 240);
+  border: solid black 0.3vmin;
+}
+.deleteButton,
+.saveButton,
+.callButton {
+  width: 15vmin;
+  margin: 1vmin;
+  height: 6vmin;
+  border-radius: 1vmin;
+  border: none;
+  color: white;
+  font-size: 2.5vmin;
+}
+.deleteButton {
+  background-color: #ff6b6b;
+}
+.saveButton {
+  background-color: #6bcb77;
+}
+.callButton {
+  background-color: #4d96ff;
+}
+.AddNumberValue::-webkit-inner-spin-button,
+.AddNumberValue::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+/* button hover */
+.button:hover {
+  border: solid black 0.3vmin;
+}
+/* dropdown contaner  */
+.dropdown-container {
+  position: absolute;
+  margin-left: 1vmin;
+}
+.dropdown {
+  width: 40vmin;
+  max-height: 19vmin; /* Set the maximum height */
+  overflow-y: auto;
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 1vmin;
+}
+
+.dropdown-item {
+  cursor: pointer;
+  font-size: 2.8vmin;
+}
+
+.dropdown-item:hover {
+  border: solid black 1px;
+  background-color: #f1f1f1;
+}
